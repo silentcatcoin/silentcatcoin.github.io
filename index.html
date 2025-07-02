@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+   <link rel="shortcut icon" href="images/favicon.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silent Cat - Это не дамп, это медитация</title>
+    <style>
+        :root {
+            --primary: #ff00aa;
+            --secondary: #00ffaa;
+            --dark: #121212;
+            --light: #f0f0f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 0 #000;
+            animation: rainbow 5s linear infinite;
+        }
+        
+        @keyframes rainbow {
+            0% { color: red; }
+            14% { color: orange; }
+            28% { color: yellow; }
+            42% { color: green; }
+            57% { color: blue; }
+            71% { color: indigo; }
+            85% { color: violet; }
+            100% { color: red; }
+        }
+        
+        .lang-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .lang-btn {
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .lang-btn:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .lang-btn.active {
+            background: rgba(0, 0, 0, 0.7);
+            font-weight: bold;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            margin: 0 0.5rem;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+        
+        nav a:hover {
+            background-color: var(--primary);
+            transform: scale(1.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 255, 170, 0.2);
+        }
+        
+        h1, h2, h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 0 #000;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        .coin-info {
+            display: flex;
+            align-items: center;
+            margin: 2rem 0;
+        }
+        
+        .coin-info img {
+            width: 150px;
+            height: 150px;
+            margin-right: 2rem;
+            animation: spin 10s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-card {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 2px solid var(--secondary);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 255, 170, 0.3);
+        }
+        
+        .feature-card h3 {
+            color: var(--secondary);
+        }
+        
+        .game-container {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        #game-canvas {
+            background-color: #000;
+            border: 3px solid var(--primary);
+            margin: 1rem auto;
+            display: block;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            margin: 0.5rem;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--primary);
+        }
+        
+        footer {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .coin-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .coin-info img {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            nav {
+                flex-wrap: wrap;
+            }
+            
+            nav a {
+                margin: 0.2rem;
+                padding: 0.5rem 1rem;
+            }
+            
+            .lang-switcher {
+                position: static;
+                justify-content: center;
+                margin-bottom: 1rem;
+            }
+        }
+  #stop-game {
+            background: linear-gradient(45deg, #ff0000, #ff6b6b);
+            margin-right: 10px;
+        }
+
+        #stop-game:hover {
+            box-shadow: 0 0 15px #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="lang-switcher">
+            <button class="lang-btn active" data-lang="ru">Русский</button>
+            <button class="lang-btn" data-lang="en">English</button>
+        </div>
+        <div class="logo" data-i18n="title">Silent Cat</div>
+        <p data-i18n="subtitle">Криптовалюта для мемов, созданная мемами и для мемов</p>
+    </header>
+    
+    <nav>
+        <a href="#about" data-i18n="nav.about">О Мемкоине</a>
+        <a href="#features" data-i18n="nav.features">Особенности</a>
+        <a href="#game" data-i18n="nav.game">Мем-Игра</a>
+        <a href="#buy" data-i18n="nav.buy">Как купить</a>
+    </nav>
+    
+    <div class="container">
+       <section id="about">
+    <h2 data-i18n="about.title">Что такое Мемкоин?</h2>
+    <div class="coin-info">
+        <img src="images/silentcat-logo.png" alt="Silent Cat лого">
+        <div>
+            <p data-i18n="about.text1">Silent Cat ($SILCAT) — это криптовалюта, созданная в 2025 году как пародия на другие мемные криптовалюты.</p>
+            <p data-i18n="about.text2">В отличие от других криптовалют, $SILCAT не обещает изменить мир...</p>
+            <p data-i18n="about.motto">Наш девиз: «1 $SILCAT = 1 тихий вечер без трейдеров.»</p>
+        </div>
+    </div>
+</section>
+        
+        <section id="features">
+            <h2 data-i18n="features.title">Почему $SILCAT?</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <h3>🚀 <span data-i18n="features.fast">Быстрые транзакции</span></h3>
+                    <p data-i18n="features.fast.text">Наш блокчейн обрабатывает транзакции быстрее, чем вы успеваете подумать об этом</p>
+                </div>
+                <div class="feature-card">
+                    <h3>😂 <span data-i18n="features.meme">Мем-экономика</span></h3>
+                    <p data-i18n="features.meme.text">Чем популярнее становится мем с Мемкоином, тем больше он стоит. Покупайте $SILCAT - увеличивайте стоимость!</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🌍 <span data-i18n="features.eco">Экологичность</span></h3>
+                    <p data-i18n="features.eco.text">Наш консенсусный алгоритм Proof-of-Meme (PoM) не требует огромных энергозатрат, только хорошее чувство юмора.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🦄 <span data-i18n="features.decentralized">Децентрализация</span></h3>
+                    <p data-i18n="features.decentralized.text">Нет CEO, нет офиса, только мемы и сайт.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="game">
+            <h2 data-i18n="game.title">Мини-игра: Поймай Мемкоин</h2>
+            <div class="game-container">
+                <p data-i18n="game.description">Зарабатывайте виртуальные Мемкоины, ловя падающие монетки! Нажмите на кнопку ниже, чтобы начать.</p>
+                <button class="btn" id="start-game" data-i18n="game.start">Начать игру</button>
+                <canvas id="game-canvas" width="600" height="400" style="display: none;"></canvas>
+                <div id="game-stats" style="display: none; margin-top: 1rem;">
+  <p><span data-i18n="game.score">Счет:</span> <span id="score">0</span> | <span data-i18n="game.coins">Мемкоины:</span> <span id="coins">0</span></p>
+  <button class="btn" id="stop-game" data-i18n="game.stop">Стоп</button>
+  <button class="btn" id="restart-game" data-i18n="game.restart">Заново</button>
+</div>
+            </div>
+        </section>
+        
+        <section id="buy">
+  <h2 data-i18n="buy.title">Как купить Silent Cat?</h2>
+  <p data-i18n="buy.description">Присоединяйтесь к мем-революции! Купить $SILCAT можно на крупных криптовалютных биржах:</p>
+  <div class="features">
+    <div class="feature-card">
+      <h3>💰 <span data-i18n="buy.exchanges">Биржи</span></h3>
+      <p data-i18n="buy.exchanges.text">Мемкоин доступен на бирже pump.fun</p>
+      <a href="https://pump.fun/" target="_blank" rel="noopener noreferrer">
+        <button class="btn" data-i18n="buy.button">Купить сейчас</button>
+      </a>
+    </div>
+  </div>
+</section>
+    </div>
+    
+    <footer>
+        <p data-i18n="footer.copyright">© 2025 $SILCAT. Все права не защищены. Это же мемы.</p>
+        <p style="font-size: 0.7rem;" data-i18n="footer.disclaimer">Disclaimer: Мемкоин - это мем, а не инвестиционный совет. Не вкладывайте больше, чем можете позволить себе потерять со смехом.</p>
+    </footer>
+    
+   
+    <script>
+        // Локализация с исправленными запятыми
+        const translations = {
+            ru: {
+                "title": "Silent Cat",
+                "subtitle": "Криптовалюта для мемов, созданная мемами и для мемов",
+                "nav.about": "О Мемкоине",
+                "nav.features": "Особенности",
+                "nav.game": "Мем-Игра",
+                "nav.buy": "Как купить",
+                "about.title": "Что такое Мемкоин?",
+                "about.text1": "Silent Cat ($SILCAT) — это криптовалюта, созданная в 2025 году как пародия на другие мемные криптовалюты.",
+                "about.text2": "В отличие от других криптовалют, $SILCAT не обещает изменить мир или революционизировать финансы. Он существует просто потому, что может существовать, и это прекрасно.",
+                "about.motto": 'Наш девиз:«1 $SILCAT = 1 тихий вечер без трейдеров.»',
+                "features.title": "Почему $SILCAT?",
+                "features.fast": "Быстрые транзакции",
+                "features.fast.text": "Наш блокчейн обрабатывает транзакции быстрее, чем вы успеваете подумать об этом",
+                "features.meme": "Мем-экономика",
+                "features.meme.text": "Чем популярнее становится мем с Мемкоином, тем больше он стоит. Покупайте $SILCAT - увеличивайте стоимость!",
+                "features.eco": "Экологичность",
+                "features.eco.text": "Наш консенсусный алгоритм Proof-of-Meme (PoM) не требует огромных энергозатрат, только хорошее чувство юмора.",
+                "features.decentralized": "Децентрализация",
+                "features.decentralized.text": "Нет CEO, нет офиса, только мемы и сайт.",
+                "game.title": "Мини-игра: Поймай Мемкоин",
+                "game.description": "Зарабатывайте виртуальные Мемкоины, ловя падающие монетки! Нажмите на кнопку ниже, чтобы начать.",
+                "game.start": "Начать игру",
+                "game.score": "Счет:",
+                "game.coins": "Мемкоины:",
+                "game.restart": "Заново",
+                "game.stop": "Стоп",
+                "buy.title": "Как купить Мемкоин?",
+                "buy.description": "Присоединяйтесь к мем-революции! Купить Мемкоин можно на крупных криптовалютных биржах:",
+                "buy.exchanges": "Биржи",
+                "buy.exchanges.text": "Мемкоин доступен на бирже pump.fun",
+                "buy.button": "Купить сейчас",
+                "footer.copyright": "© 2025 $SILCAT. Все права не защищены. Это же мемы.",
+                "footer.disclaimer": "Disclaimer: Мемкоин - это мем, а не инвестиционный совет. Не вкладывайте больше, чем можете позволить себе потерять со смехом."
+            },
+            en: {
+                "title": "Silent Cat",
+                "subtitle": "Cryptocurrency for memes, created by memes and for memes",
+                "nav.about": "About Memcoin",
+                "nav.features": "Features",
+                "nav.game": "Meme-Game",
+                "nav.buy": "How to Buy",
+                "about.title": "What is Memcoin?",
+                "about.text1": "Silent Cat ($SILCAT) is a cryptocurrency created in 2025 as a parody of other meme cryptocurrencies.",
+                "about.text2": "Unlike other cryptocurrencies, $SILCAT does not promise to change the world or revolutionize finance. It exists simply because it can exist, and that's fine.",
+                "about.motto": 'Our motto is:"1 $SILCAT = 1 quiet evening without traders."',
+                "features.title": "Why $SILCAT?",
+                "features.fast": "Fast Transactions",
+                "features.fast.text": "Our blockchain processes transactions faster than you can think about it.",
+                "features.meme": "Meme Economy",
+                "features.meme.text": "The more popular the meme with Memcoin becomes, the more it costs. Buy $SILCAT - increase the cost!",
+                "features.eco": "Eco-Friendly",
+                "features.eco.text": "Our Proof-of-Meme (PoM) consensus algorithm doesn't require huge energy costs, just a good sense of humor.",
+                "features.decentralized": "Decentralization",
+                "features.decentralized.text": "There is no CEO, no office, just memes and a website.",
+                "game.title": "Mini-game: Catch Memcoin",
+                "game.description": "Earn virtual Memcoins by catching falling coins! Click the button below to start.",
+                "game.start": "Start Game",
+                "game.score": "Score:",
+                "game.coins": "Memcoins:",
+                "game.restart": "Restart",
+                "game.stop": "Stop",
+                "buy.title": "How to Buy Memcoin?",
+                "buy.description": "Join the meme revolution! You can buy Memcoin on major cryptocurrency exchanges:",
+                "buy.exchanges": "Exchanges",
+                "buy.exchanges.text": "Memcoin is available on the pump.fun exchange",
+                "buy.button": "Buy Now",
+                "footer.copyright": "© 2025 $SILKAT. All rights are not reserved. These are memes.",
+                "footer.disclaimer": "Disclaimer: Memcoin is a meme, not investment advice. Don't invest more than you can afford to lose with a smile."
+            }
+        };
+
+        // функция смены языка
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            const elements = document.querySelectorAll('[data-i18n]');
+            
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.value = translations[lang][key];
+                    } else {
+                        element.textContent = translations[lang][key];
+                    }
+                }
+            });
+            
+            // обновление активной кнопки языка я устал
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+            
+            // сохранение выбора языка
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        // Обработчик кнопок языка
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                setLanguage(btn.dataset.lang);
+            });
+        });
+
+        // Проверка сохраненного языка или языка браузера
+        const preferredLanguage = localStorage.getItem('preferredLanguage') || 
+                                 (navigator.language.startsWith('ru') ? 'ru' : 'en');
+        setLanguage(preferredLanguage);
+
+                // Инициализация элементов игры
+        const canvas = document.getElementById('game-canvas');
+        const ctx = canvas.getContext('2d');
+        const startBtn = document.getElementById('start-game');
+        const restartBtn = document.getElementById('restart-game');
+        const stopBtn = document.getElementById('stop-game');
+        const gameStats = document.getElementById('game-stats');
+        const scoreElement = document.getElementById('score');
+        const coinsElement = document.getElementById('coins');
+        
+        // Настройки игры
+        const gameSettings = {
+            playerSpeed: 10,
+            coinSizes: [30, 40, 50],
+            coinSpeeds: { min: 2, max: 5 },
+            spawnInterval: { min: 300, max: 800 }
+        };
+        
+        // Состояние игры
+        let gameState = {
+            score: 0,
+            coinsCollected: 0,
+            isRunning: false,
+            animationId: null,
+            player: {
+                x: canvas.width / 2 - 25,
+                y: canvas.height - 50,
+                width: 80,
+                height: 30,
+                color: '#ff00aa'
+            },
+            coins: []
+        };
+
+        // Управление игрой
+        function startGame() {
+            // Остановка предыдущей игры, если она была
+            stopGame();
+            
+            // Сброс состояния
+            gameState = {
+                score: 0,
+                coinsCollected: 0,
+                isRunning: true,
+                animationId: null,
+                player: {
+                    x: canvas.width / 2 - 25,
+                    y: canvas.height - 50,
+                    width: 80,
+                    height: 30,
+                    color: '#ff00aa'
+                },
+                coins: []
+            };
+            
+            // Показать игровые элементы
+            startBtn.style.display = 'none';
+            canvas.style.display = 'block';
+            gameStats.style.display = 'block';
+            
+            // Сброс счетчиков
+            scoreElement.textContent = '0';
+            coinsElement.textContent = '0';
+            
+            // Запуск игрового цикла
+            gameLoop();
+            
+            // Начать создание монеток
+            createCoin();
+        }
+
+        function stopGame() {
+            gameState.isRunning = false;
+            if (gameState.animationId) {
+                cancelAnimationFrame(gameState.animationId);
+                gameState.animationId = null;
+            }
+        }
+
+        function restartGame() {
+            stopGame();
+            setTimeout(startGame, 100);
+        }
+
+        // Игровой цикл
+        function gameLoop() {
+            if (!gameState.isRunning) return;
+            
+            // Очистка canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Отрисовка и обновление игры
+            drawBackground();
+            updateGame();
+            drawCoins();
+            drawPlayer();
+            
+            // Продолжить цикл
+            gameState.animationId = requestAnimationFrame(gameLoop);
+        }
+        // Изображения
+        const assets = {
+            player: new Image(),
+            coinImages: [
+                new Image(),
+                new Image(),
+                new Image()
+            ],
+            background: new Image()
+        };
+
+        // Загрузка изображений
+        function loadAssets() {
+            assets.player.src = 'images/silent_cat_platform.png';
+            assets.coinImages[0].src = 'images/silent_coin1.png';
+            assets.coinImages[1].src = 'images/silent_coin2.png';
+            assets.coinImages[2].src = 'images/silent_coin3.png';
+            assets.background.src = 'images/game_bg.png';
+            
+            assets.player.onerror = () => assets.player.src = '';
+            assets.coinImages.forEach(img => img.onerror = () => img.src = '');
+            assets.background.onerror = () => assets.background.src = '';
+        }
+
+        // Создание новой монетки
+        function createCoin() {
+            if (!gameState.isRunning) return;
+            
+            const size = gameSettings.coinSizes[Math.floor(Math.random() * gameSettings.coinSizes.length)];
+            const type = Math.floor(Math.random() * assets.coinImages.length);
+            
+            const newCoin = {
+                x: Math.random() * (canvas.width - size),
+                y: -size,
+                width: size,
+                height: size,
+                speed: Math.random() * (gameSettings.coinSpeeds.max - gameSettings.coinSpeeds.min) + gameSettings.coinSpeeds.min,
+                type: type,
+                rotation: 0,
+                rotationSpeed: Math.random() * 5 + 2,
+                value: size / 10
+            };
+            
+            gameState.coins.push(newCoin);
+            
+            if (gameState.isRunning) {
+                const delay = Math.random() * 
+                    (gameSettings.spawnInterval.max - gameSettings.spawnInterval.min) + 
+                    gameSettings.spawnInterval.min;
+                setTimeout(createCoin, delay);
+            }
+        }
+
+        // Отрисовка игрока
+        function drawPlayer() {
+            ctx.save();
+            if (assets.player.complete && assets.player.src) {
+                ctx.drawImage(
+                    assets.player, 
+                    gameState.player.x, 
+                    gameState.player.y, 
+                    gameState.player.width, 
+                    gameState.player.height
+                );
+            } else {
+                ctx.fillStyle = gameState.player.color;
+                ctx.fillRect(
+                    gameState.player.x, 
+                    gameState.player.y, 
+                    gameState.player.width, 
+                    gameState.player.height
+                );
+            }
+            ctx.restore();
+        }
+
+        // Отрисовка монеток
+        function drawCoins() {
+            gameState.coins.forEach(coin => {
+                ctx.save();
+                ctx.translate(coin.x + coin.width/2, coin.y + coin.height/2);
+                ctx.rotate(coin.rotation * Math.PI/180);
+                
+                if (assets.coinImages[coin.type].complete && assets.coinImages[coin.type].src) {
+                    ctx.drawImage(
+                        assets.coinImages[coin.type], 
+                        -coin.width/2, 
+                        -coin.height/2, 
+                        coin.width, 
+                        coin.height
+                    );
+                } else {
+                    const colors = ['#FFD700', '#C0C0C0', '#CD7F32'];
+                    ctx.fillStyle = colors[coin.type % colors.length];
+                    ctx.beginPath();
+                    ctx.arc(0, 0, coin.width/2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                ctx.restore();
+                coin.rotation += coin.rotationSpeed;
+                if (coin.rotation >= 360) coin.rotation = 0;
+            });
+        }
+
+        // Отрисовка фона
+        function drawBackground() {
+            if (assets.background.complete && assets.background.src) {
+                ctx.drawImage(assets.background, 0, 0, canvas.width, canvas.height);
+            } else {
+                ctx.fillStyle = '#000';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        // Обновление состояния игры
+        function updateGame() {
+            if (keys['ArrowLeft'] && gameState.player.x > 0) {
+                gameState.player.x -= gameSettings.playerSpeed;
+            }
+            if (keys['ArrowRight'] && gameState.player.x < canvas.width - gameState.player.width) {
+                gameState.player.x += gameSettings.playerSpeed;
+            }
+            
+            gameState.coins = gameState.coins.filter(coin => {
+                coin.y += coin.speed;
+                
+                if (
+                    coin.y + coin.height > gameState.player.y &&
+                    coin.y < gameState.player.y + gameState.player.height &&
+                    coin.x + coin.width > gameState.player.x &&
+                    coin.x < gameState.player.x + gameState.player.width
+                ) {
+                    gameState.score += Math.floor(coin.value * 10);
+                    gameState.coinsCollected += 1;
+                    return false;
+                }
+                
+                return coin.y <= canvas.height;
+            });
+            
+            scoreElement.textContent = gameState.score;
+            coinsElement.textContent = gameState.coinsCollected;
+        }
+
+        // Основной игровой цикл
+    function gameLoop() {
+  if (!gameState.isRunning) return;
+  
+  drawBackground();
+  updateGame();
+  drawCoins();
+  drawPlayer();
+  
+  // Сохраняем ID анимации и проверяем, что игра запущена
+  if (gameState.isRunning) {
+    gameState.animationId = requestAnimationFrame(gameLoop);
+  }
+}
+function stopGame() {
+  gameState.isRunning = false;
+  if (gameState.animationId) {
+    cancelAnimationFrame(gameState.animationId);
+    gameState.animationId = null;
+  }
+}
+        // Начало игры
+        function startGame() {
+             gameState.isRunning = true;
+            gameState = {
+                score: 0,
+                coinsCollected: 0,
+                isRunning: true,
+                player: {
+                    x: canvas.width / 2 - 25,
+                    y: canvas.height - 50,
+                    width: 80,
+                    height: 30,
+                    color: '#ff00aa'
+                },
+                coins: []
+            };
+            
+            loadAssets();
+            startBtn.style.display = 'none';
+            canvas.style.display = 'block';
+            gameStats.style.display = 'block';
+            
+            scoreElement.textContent = '0';
+            coinsElement.textContent = '0';
+            
+            createCoin();
+            gameLoop();
+        }
+
+        // Перезапуск игры
+        function restartGame() {
+             stopGame();
+            setTimeout(startGame, 100);
+        }
+
+       startBtn.addEventListener('click', startGame);
+        restartBtn.addEventListener('click', restartGame);
+        stopBtn.addEventListener('click', stopGame);
+
+        // Управление клавиатурой
+        const keys = {};
+        document.addEventListener('keydown', (e) => {
+            keys[e.key] = true;
+        });
+        document.addEventListener('keyup', (e) => {
+            keys[e.key] = false;
+        });
+        document.getElementById('stop-game').addEventListener('click', stopGame);
+    </script>
+</body>
+</html>
