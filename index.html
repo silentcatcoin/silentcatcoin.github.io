@@ -301,7 +301,7 @@
         <section id="game">
             <h2 data-i18n="game.title">Мини-игра: Поймай Мемкоин</h2>
             <div class="game-container">
-                <p data-i18n="game.description">Зарабатывайте виртуальные Мемкоины, ловя падающие монетки! Нажмите на кнопку ниже, чтобы начать.</p>
+                <p data-i18n="game.description">Зарабатывайте виртуальные Мемкоины! Нажмите на кнопку ниже, чтобы начать и собирайте монетки с помощью стрелок на клавиатуре.</p>
                 <button class="btn" id="start-game" data-i18n="game.start">Начать игру</button>
                 <canvas id="game-canvas" width="600" height="400" style="display: none;"></canvas>
                 <div id="game-stats" style="display: none; margin-top: 1rem;">
@@ -357,7 +357,7 @@
                 "features.decentralized": "Децентрализация",
                 "features.decentralized.text": "Нет CEO, нет офиса, только мемы и сайт.",
                 "game.title": "Мини-игра: Поймай Мемкоин",
-                "game.description": "Зарабатывайте виртуальные Мемкоины, ловя падающие монетки! Нажмите на кнопку ниже, чтобы начать.",
+                "game.description": "Зарабатывайте виртуальные Мемкоины! Нажмите на кнопку ниже, чтобы начать и собирайте монетки с помощью стрелок на клавиатуре.",
                 "game.start": "Начать игру",
                 "game.score": "Счет:",
                 "game.coins": "Мемкоины:",
@@ -392,7 +392,7 @@
                 "features.decentralized": "Decentralization",
                 "features.decentralized.text": "There is no CEO, no office, just memes and a website.",
                 "game.title": "Mini-game: Catch Memcoin",
-                "game.description": "Earn virtual Memcoins by catching falling coins! Click the button below to start.",
+                "game.description": "Earn virtual Memcoins! Click the button below to get started and collect coins using the arrow keys on the keyboard.",
                 "game.start": "Start Game",
                 "game.score": "Score:",
                 "game.coins": "Memcoins:",
@@ -755,6 +755,13 @@ function stopGame() {
         document.addEventListener('keydown', (e) => {
             keys[e.key] = true;
         });
+        document.addEventListener('keyup', (e) => {
+            keys[e.key] = false;
+        });
+        document.getElementById('stop-game').addEventListener('click', stopGame);
+    </script>
+</body>
+</html>
         document.addEventListener('keyup', (e) => {
             keys[e.key] = false;
         });
